@@ -1,7 +1,6 @@
 <!-- Load the Polymer.Element base class -->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<!-- <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html"> -->
-<link rel="import" href="components/phrase-list.html">
+<link rel="import" href="components/phrase-selection.html">
 
 <dom-module id="my-text-parser-view">
   <!-- Defines the element's style and local DOM -->
@@ -14,9 +13,7 @@
       }
     </style>
 
-    <h1>Text Parser</h1>
-    <phrase-list id="include-phrases"></phrase-list>
-    <phrase-list id="exclude-phrases"></phrase-list>
+    <phrase-selection id="phrases"></phrase-selection>
     
   </template>
   <script>

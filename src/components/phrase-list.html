@@ -7,69 +7,129 @@
 
 <link rel="import" href="../shared-styles.html">
 
+<!-- <link rel="import" href = "../code/parse.js"> -->
+
+
 <dom-module id="phrase-list">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+    <template>
+        <style include="shared-styles">
+             :host {
+                display: block;
 
-        padding: 10px;
-      }
-      #my-element{
-          background: yellow;
-      }
-      .my-class{
-        background:red;
-      }
-      .add-phrase-div{
-          width: auto;
-      }
-      .bottom-div{
-        height: 200px;
-      }
-      .control-div{
-          float: left;
-          width:30%;
-          height: 100%;
-      }
-      .list-div{
-          float: left;
-          width:70%;
-          height: 100%;
-      }
-    </style>
+                padding: 3px;
+            }
 
-    <div class="card">
-        <div class="add-phrase-div">
-            <paper-input id="phraseToAdd" always-float-label label="Phrase To Add"></paper-input>
-        </div>
-        <div class="bottom-div">
-            <div class="control-div">
-                <div>
-                    <paper-button id="addPhrase">Add Phrase</paper-button>
+            #my-element {
+                background: yellow;
+            }
+
+            .my-class {
+                background: red;
+            }
+
+            .add-phrase-div {
+                width: auto;
+            }
+
+            .bottom-div {
+                height: 200px;
+            }
+
+            .control-div {
+                float: left;
+                width: 30%;
+                height: 100%;
+            }
+
+            .list-div {
+                float: left;
+                width: 70%;
+                height: 100%;
+            }
+        </style>
+
+        <div class="card">
+            <div class="add-phrase-div">
+                <paper-input id="phraseToAddInput" always-float-label label="Phrase To Add" value="{{phraseToAdd}}"></paper-input>
+            </div>
+            <div class="bottom-div">
+                <div class="control-div">
+                    <div><paper-button on-click='_addButtonClicked'>Add Phrase</paper-button></div>
+                    <div><paper-button on-click='_removeButtonClicked'>Remove Phrases</paper-button></div>
+                    <div><paper-button on-click='_clearButtonClicked'>Clear All Phrases</paper-button></div>
                 </div>
-                <div>
-                    <paper-button id="removePhrases">Remove Phrases</paper-button>
-                </div>
-                <div>
-                    <paper-button id="clear">Clear All Phrases</paper-button>
+                <div class="list-div">
+                    <paper-listbox id='phraseListBox' multi>
+                        <template is='dom-repeat' items='{{phrases}}'>
+                            <paper-item>{{item.phrase}}</paper-item>
+                        </template>
+                    </paper-listbox>
                 </div>
             </div>
-            <div class="list-div">
-                <paper-listbox multi>
-                    <paper-item>One</paper-item>
-                    <paper-item>Two</paper-item>
-                </paper-listbox>
-            </div>
         </div>
-    </div>
-  </template>
+    </template>
 
-  <script>
-    class PhraseList extends Polymer.Element {
-      static get is() { return 'phrase-list'; }
-    }
+    <script>
+        class PhraseList extends Polymer.Element {
 
-    window.customElements.define(PhraseList.is, PhraseList);
-  </script>
+            static get is() { return 'phrase-list'; }
+
+            static get properties() {
+                return {
+                    phraseToAdd: {
+                        type: String,
+                        value: '',
+                        observer: '_phraseToAddChanged'
+                    },
+                    phrases: {
+                        type: Object,
+                        notify: true,
+                        value: function() { return []; }
+                    }
+                }
+            }
+
+            _pushMessage(buttonName) {
+                console.log('I pushed the', buttonName, 'button');
+
+            }
+
+            _addButtonClicked() {
+                if (this.phraseToAdd) {
+                    let newPhrase = { phrase: this.phraseToAdd };
+                    this.phraseToAdd = '';
+
+                    this.push('phrases', newPhrase);
+                }
+            }
+
+            _removeButtonClicked() {
+                this._removeItems(this.$.phraseListBox.selectedItems);
+            }
+
+            _clearButtonClicked() {
+                this._removeItems(this.$.phraseListBox.items);
+            }
+
+            _removeItems(items) {
+                let listBox = this.$.phraseListBox;
+                for (let item of items) {
+                    this._removeItem(item.textContent);
+                    listBox.removeChild(item);
+                }
+            }
+
+            _removeItem(phraseName){
+                for( let internalItem of this.phrases){
+                    if (internalItem.phrase === phraseName){
+                        this.phrases.splice(this.phrases.indexOf(internalItem),1);
+                    }
+                }
+            }
+        }
+
+
+
+        window.customElements.define(PhraseList.is, PhraseList);
+    </script>
 </dom-module>

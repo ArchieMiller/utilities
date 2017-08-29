@@ -1,0 +1,38 @@
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
+<link rel="import" href="phrase-list.html">
+
+<dom-module id="phrase-selection">
+    <!-- Defines the element's style and local DOM -->
+    <template>
+        <style>
+             :host {
+                display: block;
+
+                padding: 16px;
+            }
+        </style>
+
+        <div>
+            <iron-label>
+                Include Phrases
+                <phrase-list id="include-phrases"></phrase-list>
+            </iron-label>
+        </div>
+        <div>
+            <iron-label>
+                Exclude Phrases
+                <phrase-list id="exclude-phrases"></phrase-list>
+            </iron-label>
+        </div>
+
+    </template>
+    <script>
+        class PhraseSelection extends Polymer.Element {
+            static get is() { return 'phrase-selection'; }
+        }
+
+        customElements.define(PhraseSelection.is, PhraseSelection);
+    </script>
+</dom-module>
