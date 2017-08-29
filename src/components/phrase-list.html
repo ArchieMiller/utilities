@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="phrase-list">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      #my-element{
+          background: yellow;
+      }
+      .my-class{
+        background:red;
+      }
+      .add-phrase-div{
+          width: auto;
+      }
+      .bottom-div{
+        height: 200px;
+      }
+      .control-div{
+          float: left;
+          width:30%;
+          height: 100%;
+      }
+      .list-div{
+          float: left;
+          width:70%;
+          height: 100%;
+      }
+    </style>
+
+    <div class="card">
+        <div class="add-phrase-div">
+            <paper-input id="phraseToAdd" always-float-label label="Phrase To Add"></paper-input>
+        </div>
+        <div class="bottom-div">
+            <div class="control-div">
+                <div>
+                    <paper-button id="addPhrase">Add Phrase</paper-button>
+                </div>
+                <div>
+                    <paper-button id="removePhrases">Remove Phrases</paper-button>
+                </div>
+                <div>
+                    <paper-button id="clear">Clear All Phrases</paper-button>
+                </div>
+            </div>
+            <div class="list-div">
+                <paper-listbox multi>
+                    <paper-item>One</paper-item>
+                    <paper-item>Two</paper-item>
+                </paper-listbox>
+            </div>
+        </div>
+    </div>
+  </template>
+
+  <script>
+    class PhraseList extends Polymer.Element {
+      static get is() { return 'phrase-list'; }
+    }
+
+    window.customElements.define(PhraseList.is, PhraseList);
+  </script>
+</dom-module>
